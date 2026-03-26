@@ -69,8 +69,16 @@
   .home-instruction {
     font-size: clamp(28px, 5vw, 58px);
     line-height: 1.15;
-    color: var(--ink);
-    max-width: 520px;
+    color: #ffffff;
+    max-width: 420px;
+    position: absolute;
+    right: clamp(16px, 6vw, 80px);
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    z-index: 2;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+    pointer-events: none;
   }
   .home-sub {
     margin-top: 32px;
@@ -83,7 +91,7 @@
     position: absolute;
     right: 0; top: 50%;
     transform: translateY(-50%);
-    width: clamp(300px, 55vw, 680px);
+    width: clamp(220px, 42vw, 500px);
     pointer-events: none;
   }
   .start-hint {
@@ -244,9 +252,9 @@
   <div class="home-instruction">
     CLICK YOUR<br>SCREEN FOR<br>
     <span id="home-phase-txt">—3 SECONDS—</span><br>
-    THEN<br><span style="white-space:nowrap">—TWO SECONDS—</span>
+    THEN<br>—TWO SECONDS—
   </div>
-  <p class="home-sub"></p>
+  <p class="home-sub">Imperfection confirms humanity</p>
   <p class="start-hint">↓ click anywhere to begin ↓</p>
  
   <!-- SVG hand drawn with CSS paths -->
@@ -296,11 +304,7 @@
     <p class="result-conclusion" id="result-conclusion"></p>
     <div class="result-actions">
       <button class="retry-btn" id="retry-btn">TRY AGAIN?</button>
-      <div id="pass-links" style="display:none; flex-direction:column; align-items:center; gap:4px;">
-        <a class="home-link" href="index.html">CONTINUE</a>
-        <a class="home-link" href="click.html">HOME</a>
-      </div>
-      <a class="home-link" id="home-link-default" href="click.html">HOME</a>
+      <a class="home-link" href="index.html">HOME</a>
     </div>
   </div>
 </div>
@@ -436,37 +440,11 @@
 
     const concl = document.getElementById('result-conclusion');
     concl.textContent = isHuman ? '' : 'SUSPICIOUS. PLEASE TRY AGAIN';
-
-    // Show pass links (continue + home) on pass, default home link on fail
-    const passLinks = document.getElementById('pass-links');
-    const homeDefault = document.getElementById('home-link-default');
-    if (isHuman) {
-      passLinks.style.display = 'flex';
-      homeDefault.style.display = 'none';
-    } else {
-      passLinks.style.display = 'none';
-      homeDefault.style.display = '';
-    }
+    const retryBtn = document.getElementById('retry-btn');
+    retryBtn.style.display = isHuman ? 'none' : 'inline-flex';
 
     show('result');
   }
-
-  // Dev cheat: type "33" on both timed screens to trigger fail machine
-  let devBuffer = '';
-  document.addEventListener('keydown', function(e) {
-    if (!screens.test.classList.contains('active')) { devBuffer = ''; return; }
-    devBuffer += e.key;
-    if (devBuffer.length > 4) devBuffer = devBuffer.slice(-4);
-    if (devBuffer.includes('33')) {
-      devBuffer = '';
-      clearRAF();
-      holding = false;
-      testEl.classList.remove('holding');
-      // Force fail by using exactly-on-target durations
-      durations = [TARGETS[0], TARGETS[1]];
-      showResult();
-    }
-  });
 </script>
 </body>
 </html>

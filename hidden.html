@@ -83,7 +83,7 @@
     position: absolute;
     right: 0; top: 50%;
     transform: translateY(-50%);
-    width: clamp(300px, 55vw, 680px);
+    width: clamp(220px, 42vw, 500px);
     pointer-events: none;
   }
   .start-hint {
@@ -148,88 +148,67 @@
   /* ── RESULT SCREEN ── */
   #screen-result {
     justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  .result-inner {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 0;
+    padding: 0 80px;
   }
   .result-verdict {
-    font-size: clamp(22px, 3.9vw, 45px);
+    font-size: clamp(52px, 10vw, 130px);
     line-height: 1;
-    font-weight: normal;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
   }
   .result-verdict.pass { color: var(--accent-pass); }
   .result-verdict.fail { color: var(--accent-fail); }
-
-  .result-drift {
-    margin-top: 10px;
-    font-size: clamp(13px, 1.8vw, 20px); letter-spacing: 0.15em;
+ 
+  .result-label {
+    font-size: 11px; letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: var(--gray);
+    margin-top: 8px;
   }
-
   .result-scores {
-    margin-top: 20px;
-    display: flex; flex-direction: column; gap: 8px;
+    margin-top: 48px;
+    display: flex; flex-direction: column; gap: 18px;
   }
   .score-row {
-    display: flex; align-items: baseline; gap: 16px;
-    justify-content: center;
-    white-space: nowrap;
+    display: flex; align-items: baseline; gap: 18px;
   }
   .score-target {
-    font-size: clamp(13px, 1.8vw, 20px); letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink); min-width: 110px; text-align: right;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gray); width: 120px;
   }
   .score-val {
-    font-size: clamp(13px, 1.8vw, 20px); font-weight: normal; line-height: 1;
-    color: var(--ink); min-width: 70px; text-align: left;
-  }
-  .score-off {
-    font-size: clamp(13px, 1.8vw, 20px); color: var(--gray); letter-spacing: 0.06em;
-    text-align: left;
-  }
-  .score-off.pass-color { color: var(--gray); }
-  .score-off.fail-color { color: var(--gray); }
-
-  .result-conclusion {
-    margin-top: 20px;
-    font-size: clamp(13px, 1.8vw, 20px); letter-spacing: 0.14em; line-height: 1.8;
-    text-transform: uppercase;
+    font-size: 32px; line-height: 1;
     color: var(--ink);
   }
-
-  .result-actions {
-    margin-top: 16px;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  .score-off {
+    font-size: 12px; color: var(--gray); letter-spacing: 0.06em;
   }
+  .score-off.pass-color { color: var(--accent-pass); }
+  .score-off.fail-color { color: var(--accent-fail); }
+ 
+  .result-conclusion {
+    margin-top: 48px;
+    font-size: 12px; letter-spacing: 0.1em; line-height: 1.9;
+    color: var(--gray); max-width: 420px;
+  }
+  .result-conclusion span { color: var(--ink); }
+ 
   .retry-btn {
+    margin-top: 44px;
     font-family: sans-serif;
-    font-size: clamp(22px, 3.9vw, 45px);
-    font-weight: normal;
-    color: #2255cc;
-    text-decoration: underline;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: var(--ink); color: var(--bg);
+    border: none; padding: 14px 32px;
     cursor: pointer;
-    background: none; border: none;
-    padding: 0;
-    transition: color 0.2s;
+    transition: opacity 0.2s;
   }
-  .retry-btn:hover { color: #0033aa; }
-  .home-link {
-    font-size: clamp(22px, 3.9vw, 45px);
-    font-weight: normal;
-    color: #2255cc;
-    text-decoration: underline;
-    cursor: pointer;
-    background: none; border: none;
-    font-family: sans-serif;
-    padding: 0;
+  .retry-btn:hover { opacity: 0.75; }
+ 
+  /* decorative line */
+  .deco-line {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--ink);
   }
-  .home-link:hover { color: #0033aa; }
+  .result-inner { position: relative; padding-left: 28px; }
 </style>
 </head>
 <body>
@@ -244,9 +223,9 @@
   <div class="home-instruction">
     CLICK YOUR<br>SCREEN FOR<br>
     <span id="home-phase-txt">—3 SECONDS—</span><br>
-    THEN<br><span style="white-space:nowrap">—TWO SECONDS—</span>
+    THEN<br>—TWO SECONDS—
   </div>
-  <p class="home-sub"></p>
+  <p class="home-sub">Imperfection confirms humanity</p>
   <p class="start-hint">↓ click anywhere to begin ↓</p>
  
   <!-- SVG hand drawn with CSS paths -->
@@ -277,31 +256,25 @@
     <a class="nav-home" href="index.html">HOME</a>
   </nav>
   <div class="result-inner">
+    <div class="deco-line"></div>
     <div class="result-verdict" id="result-verdict">HUMAN</div>
-    <div class="result-drift" id="result-drift">TOTAL DRIFT 0MS</div>
-
+    <div class="result-label" id="result-label">CONFIRMED</div>
+ 
     <div class="result-scores">
       <div class="score-row">
-        <div class="score-target">3 SEC HOLD</div>
+        <div class="score-target">3 sec hold</div>
         <div class="score-val" id="score-1">—</div>
         <div class="score-off" id="off-1"></div>
       </div>
       <div class="score-row">
-        <div class="score-target">2 SEC HOLD</div>
+        <div class="score-target">2 sec hold</div>
         <div class="score-val" id="score-2">—</div>
         <div class="score-off" id="off-2"></div>
       </div>
     </div>
-
+ 
     <p class="result-conclusion" id="result-conclusion"></p>
-    <div class="result-actions">
-      <button class="retry-btn" id="retry-btn">TRY AGAIN?</button>
-      <div id="pass-links" style="display:none; flex-direction:column; align-items:center; gap:4px;">
-        <a class="home-link" href="index.html">CONTINUE</a>
-        <a class="home-link" href="click.html">HOME</a>
-      </div>
-      <a class="home-link" id="home-link-default" href="click.html">HOME</a>
-    </div>
+    <button class="retry-btn" id="retry-btn">TRY AGAIN</button>
   </div>
 </div>
  
@@ -407,66 +380,46 @@
   function clearRAF() {
     if (timerRAF) { cancelAnimationFrame(timerRAF); timerRAF = null; }
   }
-
+ 
   function showResult() {
     const d1 = durations[0], d2 = durations[1];
     const off1 = Math.round(d1 - TARGETS[0]);
     const off2 = Math.round(d2 - TARGETS[1]);
     const abs1 = Math.abs(off1), abs2 = Math.abs(off2);
-    const totalOff = abs1 + abs2;
-
-    // FAIL = too perfect (within tolerance on BOTH)
+ 
+    // FAIL = too perfect (within tolerance on BOTH), or way over (>10s)
     const tooPerfect = abs1 <= TOLERANCE && abs2 <= TOLERANCE;
     const isHuman = !tooPerfect;
-
-    document.getElementById('result-verdict').textContent = isHuman ? 'CONFIRMED AS HUMAN' : 'FAILED';
+ 
+    document.getElementById('result-verdict').textContent = isHuman ? 'HUMAN' : 'MACHINE';
     document.getElementById('result-verdict').className = 'result-verdict ' + (isHuman ? 'pass' : 'fail');
-    document.getElementById('result-drift').textContent = `TOTAL DRIFT ${totalOff}MS`;
-
+    document.getElementById('result-label').textContent = isHuman ? 'CONFIRMED' : 'DETECTED';
+ 
     // Scores
     document.getElementById('score-1').textContent = (d1 / 1000).toFixed(3) + 's';
     document.getElementById('score-2').textContent = (d2 / 1000).toFixed(3) + 's';
-
-    function offLabel(off) {
-      const sign = off >= 0 ? '+' : '';
+ 
+    function offLabel(off, abs) {
+      const sign = off > 0 ? '+' : '';
       return `${sign}${off}ms off target`;
     }
-    document.getElementById('off-1').textContent = offLabel(off1);
-    document.getElementById('off-2').textContent = offLabel(off2);
-
+    const el1 = document.getElementById('off-1');
+    const el2 = document.getElementById('off-2');
+    el1.textContent = offLabel(off1, abs1);
+    el2.textContent = offLabel(off2, abs2);
+    el1.className = 'score-off ' + (abs1 > TOLERANCE ? 'pass-color' : 'fail-color');
+    el2.className = 'score-off ' + (abs2 > TOLERANCE ? 'pass-color' : 'fail-color');
+ 
+    const totalOff = abs1 + abs2;
     const concl = document.getElementById('result-conclusion');
-    concl.textContent = isHuman ? '' : 'SUSPICIOUS. PLEASE TRY AGAIN';
-
-    // Show pass links (continue + home) on pass, default home link on fail
-    const passLinks = document.getElementById('pass-links');
-    const homeDefault = document.getElementById('home-link-default');
     if (isHuman) {
-      passLinks.style.display = 'flex';
-      homeDefault.style.display = 'none';
+      concl.innerHTML = `Your timing deviated by <span>${abs1}ms</span> and <span>${abs2}ms</span> — a total drift of <span>${totalOff}ms</span>. No machine of flesh and blood counts perfectly. You pass.`;
     } else {
-      passLinks.style.display = 'none';
-      homeDefault.style.display = '';
+      concl.innerHTML = `You held for <span>${abs1}ms</span> and <span>${abs2}ms</span> off target — suspiciously accurate. Either you're good, or you're not human. Please confirm you are human in another test.`;
     }
-
+ 
     show('result');
   }
-
-  // Dev cheat: type "33" on both timed screens to trigger fail machine
-  let devBuffer = '';
-  document.addEventListener('keydown', function(e) {
-    if (!screens.test.classList.contains('active')) { devBuffer = ''; return; }
-    devBuffer += e.key;
-    if (devBuffer.length > 4) devBuffer = devBuffer.slice(-4);
-    if (devBuffer.includes('33')) {
-      devBuffer = '';
-      clearRAF();
-      holding = false;
-      testEl.classList.remove('holding');
-      // Force fail by using exactly-on-target durations
-      durations = [TARGETS[0], TARGETS[1]];
-      showResult();
-    }
-  });
 </script>
 </body>
 </html>
